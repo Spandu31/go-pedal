@@ -1,0 +1,89 @@
+.checkout-container {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .header {
+    background: #d4f6c4;
+    text-align: center;
+    padding: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .highlight {
+    background: #d4f6c4;
+    color: green;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .section, .promo-section, .summary {
+    margin-top: 20px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+  
+  .price {
+    color: green;
+  }
+  
+  .original {
+    color: gray;
+  }
+  
+  .discount {
+    color: blue;
+  }
+  
+  .paid {
+    color: green;
+  }
+  
+  .promo-input {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .promo-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .promo-input button {
+    padding: 8px 16px;
+    background-color: #30c031;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pay-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #30c031;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

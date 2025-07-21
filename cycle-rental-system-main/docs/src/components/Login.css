@@ -1,0 +1,89 @@
+/* Global font settings */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Login page container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom right, #ffffff, #90FDC1);
+  padding: 1rem;
+}
+
+/* Login form box */
+.login-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* Form title */
+.login-box h2 {
+  margin-bottom: 1.5rem;
+  color: #7FCFA8; /* minty green */
+}
+
+/* Input fields */
+.login-box input {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.6rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Input focus state */
+.login-box input:focus {
+  border-color: #7FCFA8;
+  outline: none;
+  box-shadow: 0 0 5px rgba(127, 207, 168, 0.5);
+}
+
+/* Submit button */
+.login-box button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #0f472c; /* minty green */
+  color: white;
+  border: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Button hover effect */
+.login-box button:hover {
+  background-color: #558B71; /* deep minty green */
+}
+
+/* Link to sign up page */
+.signup-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.signup-link a {
+  color: #558B71; /* minty deep green for links */
+  text-decoration: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 400px) {
+  .login-box {
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,153 @@
+import { useEffect, useState } from 'react';
+import './AdminDashboard.css';
+import { toast } from 'react-toastify';
+
+const AdminDashboard = () => {
+  const [cycles, setCycles] = useState([]);
+  const [newCycle, setNewCycle] = useState({ battery: '', hub: '' });
+
+  const fetchCycles = async () => {
+    try {
+      const res = await fetch('/api/cycles');
+      if (!res.ok) throw new Error("Failed to fetch cycles");
+      const data = await res.json();
+
+      // Assuming the backend returns the rental data (user details) with the cycles
+      setCycles(data);
+    } catch (error) {
+      toast.error("Failed to fetch cycles.");
+      console.error(error);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'available':
+        return 'green';
+      case 'rented':
+        return 'red';
+      case 'maintenance':
+        return 'yellow';
+      default:
+        return 'black';
+    }
+  };
+
+  useEffect(() => {
+    fetchCycles();
+  }, []);
+
+  const handleAddCycle = async () => {
+    if (!newCycle.battery || !newCycle.hub) {
+      toast.warning("Please fill in all fields.");
+      return;
+    }
+
+    const battery = parseInt(newCycle.battery);
+    if (isNaN(battery) || battery < 0 || battery > 100) {
+      toast.warning("Battery % must be between 0 and 100.");
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cycles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          battery,
+          hub: newCycle.hub
+        })
+      });
+
+      if (!res.ok) throw new Error("Error adding cycle");
+
+      const addedCycle = await res.json();
+      toast.success("Cycle added!");
+      setNewCycle({ battery: '', hub: '' });
+      setCycles((prevCycles) => [...prevCycles, addedCycle]);
+    } catch (error) {
+      toast.error("Failed to add cycle.");
+      console.error(error);
+    }
+  };
+
+  const handleDeleteCycle = async (cycleId, status) => {
+    if (status === 'rented') {
+      toast.warning("Cannot delete a rented cycle.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/cycles/${cycleId}`, {
+        method: 'DELETE'
+      });
+
+      if (!res.ok) throw new Error("Error deleting cycle");
+
+      toast.success("Cycle removed.");
+      // Filter out the deleted cycle from the state
+      setCycles((prev) => prev.filter(cycle => cycle.id !== cycleId));
+    } catch (error) {
+      toast.error("Failed to delete cycle.");
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="admin-dashboard">
+      <h2>Admin Dashboard</h2>
+
+      <div className="add-cycle-form">
+        <h3>Add New Cycle</h3>
+        <input
+          type="text"
+          placeholder="Battery %"
+          value={newCycle.battery}
+          onChange={(e) => setNewCycle({ ...newCycle, battery: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Hub Name"
+          value={newCycle.hub}
+          onChange={(e) => setNewCycle({ ...newCycle, hub: e.target.value })}
+        />
+        <button onClick={handleAddCycle}>Add Cycle</button>
+      </div>
+
+      <h3>All Cycles</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Battery</th>
+            <th>Hub</th>
+            <th>Status</th>
+            <th>Rented By</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cycles.map(cycle => (
+            <tr key={cycle.id} style={{ color: getStatusColor(cycle.status) }}>
+              <td>{cycle.id}</td>
+              <td>{cycle.battery}%</td>
+              <td>{cycle.hub || "N/A"}</td>
+              <td>{cycle.status}</td>
+              <td>{cycle.rentedBy ? cycle.rentedBy.name : "-"}</td>
+              <td>
+                <button
+                  onClick={() => handleDeleteCycle(cycle.id, cycle.status)}
+                  disabled={cycle.status === 'rented'}
+                >
+                  {cycle.status === 'rented' ? "Cannot Delete" : "Delete"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default AdminDashboard;
