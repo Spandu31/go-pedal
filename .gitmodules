@@ -1,0 +1,3 @@
+[submodule "go-peda"]
+	path = go-peda
+	url = https://github.com/Spandu31/go-pedal.git
